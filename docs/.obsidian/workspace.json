@@ -6,6 +6,7 @@
       {
         "id": "e4b3331d1460f635",
         "type": "tabs",
+        "dimension": 66.87725631768953,
         "children": [
           {
             "id": "dd233ba9833bb134",
@@ -18,12 +19,38 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "7a85e9d658113501",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Referências.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "b3a665032408d60f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Lexer.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       },
       {
         "id": "4408d3f489a9ae2b",
         "type": "tabs",
+        "dimension": 33.12274368231047,
         "children": [
           {
             "id": "0f3d0e7caddba6d4",
@@ -99,7 +126,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Welcome.md",
+                "file": "Lexer.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -116,7 +143,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Welcome.md",
+                "file": "Lexer.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -139,7 +166,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Welcome.md"
+                "file": "Lexer.md"
               }
             }
           }
@@ -160,10 +187,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "dd233ba9833bb134",
+  "active": "b3a665032408d60f",
   "lastOpenFiles": [
-    "template/Default.md",
+    "Referências.md",
+    "Lexer.md",
     "Welcome.md",
+    "template/Default.md",
     "template"
   ]
 }

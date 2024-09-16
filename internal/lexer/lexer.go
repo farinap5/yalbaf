@@ -11,6 +11,8 @@ const (
 	COMMENT
 	WILDCARD
 	OPERATOR
+	
+	BOOLOP // Boolean Operator
 
 	// ()
 	OPENGRP
@@ -25,7 +27,7 @@ type Token struct {
 type Lex struct {
 	Code 	string
 	Cursor 	uint
-	Token	Token
+	//Token	Token
 }
 
 
@@ -48,17 +50,41 @@ func (l *Lex) next() rune {
 	return d
 }
 
-func (l *Lex) GetToken() {
+func (l *Lex) scanFullSequence(b func(rune) bool) string {
+	initPosition := l.Cursor
+	nextSymbol := l.next()
+	
+	for b(nextSymbol) {
+		nextSymbol = l.next()
+	}
+
+	return l.Code[initPosition:l.Cursor]
+}
+
+func (l *Lex) GetToken() Token {
+	var token Token
 
 	if int(l.Cursor) == len(l.Code) {
-		l.Token = Token{Data: "", Type: EOF}
+		token = Token{Data: "", Type: EOF}
 	}
 
 	data := l.next()
 
-	for int(l.Cursor) < len(l.Code) {
-		if isBlank(data) {
-			l.Token = l.scan(isBlank, WS)
-		} 
-	}	
+	switch data {
+	// First analyze single rune tokens
+	case '=' :
+		token = Token{Data: "", Type: BOOLOP}
+	default:
+		if isLetter(data){
+			literal := l.scanFullSequence(isLetter)
+			tokenType = LookupToken(literal) // token.Type
+			tokenLiteral = literal // token.Data
+		} else if (isDigit(data)) {
+			literal := l.scanFullSequence(isDigit)
+			tokenType = NUMBER // token.Type
+			tokenLiteral = literal // token.Data
+		}
+	}
+
+	return token
 }

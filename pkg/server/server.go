@@ -6,12 +6,12 @@ import (
 )
 
 type Server struct {
-	server          *http.Server
-	notify          chan error
-	shutdownTimeout time.Duration
+	server    *http.Server
+	notify    chan error
+	sdTimeout time.Duration
 }
 
-func createServer() {
+func createServer() (*http.Server,*http.Server) {
 	serverMux := http.NewServeMux()
 	serverMux.HandleFunc("/", analyser(proxy("http://google.com.br/")))
 
@@ -25,5 +25,7 @@ func createServer() {
 		Addr: 		"0.0.0.0:443",
 		Handler: 	serverMux,
 	}
+
+	return server,serverTLS
 }
 
