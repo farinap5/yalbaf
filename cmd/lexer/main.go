@@ -7,8 +7,21 @@ import (
 )
 
 func main() {
-	exp := "SELECT x"
+	exp := "SELECT xa,y"
 	l := lexer.Init(exp)
 	t := l.GetToken()
-	fmt.Printf("Token: %s | Type: %d", t.Data, t.Type)
+	fmt.Printf("Token: %s | Type: %d\n", t.Data, t.Type)
+
+	t = l.GetToken()
+	fmt.Printf("Token: %s | Type: %d\n", t.Data, t.Type)
+
+	t = l.GetToken()
+	fmt.Printf("Token: %s | Type: %d\n", t.Data, t.Type)
+
+	t = l.GetToken()
+	fmt.Printf("Token: %s | Type: %d\n", t.Data, t.Type)
+
+	t = l.GetToken()
+	fmt.Printf("Token: %s | Type: %d\n", t.Data, t.Type)
+	
 }

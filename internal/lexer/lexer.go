@@ -1,15 +1,11 @@
 package lexer
 
-import (
-	"unicode"
-	"unicode/utf8"
-)
-
 const (
 	ERROR = iota
 	EOF
 	UNKNOWN
 	WS // White Space
+	IDENTIFIER
 	STRING
 	NUMBER
 	WILDCARD
@@ -18,12 +14,15 @@ const (
 	BOOLOP // Boolean Operator
 
 	COMMENT
+	COMMA
 
 	// ()
 	OPENGRP
 	CLOSEGRP
 
 	SELECT
+	FROM
+	WHERE
 )
 
 type Token struct {
@@ -34,6 +33,8 @@ type Token struct {
 type Lex struct {
 	Code 	string
 	Cursor 	uint
+	CChar	byte
+	Ptr   	uint
 	//Token	Token
 }
 
@@ -45,31 +46,32 @@ func Init(Data string) *Lex {
 	lex := new(Lex)
 	lex.Code = Data
 	lex.Cursor = 0
+	lex.Ptr = 0
+	lex.next()
 	return lex
 }
 
-func (l *Lex) next() rune {
-	d, n := utf8.DecodeRuneInString(l.Code[l.Cursor:])
-	if n == 0 {
-		return 0
+func (l *Lex) next() {
+	if int(l.Cursor) >= len(l.Code) {
+		l.CChar = 0
+	} else {
+		l.CChar = l.Code[l.Cursor]
 	}
+	l.Ptr = l.Cursor
 	l.Cursor++
-	return d
 }
 
 func (l *Lex) scanFullSequence(b func(rune) bool) string {
-	initPosition := l.Cursor-1
-	nextSymbol := l.next()
-	
-	for b(nextSymbol) {
-		nextSymbol = l.next()
+	initPosition := l.Ptr
+	for b(rune(l.CChar)) {
+		l.next()
 	}
 
-	return l.Code[initPosition:l.Cursor-1]
+	return l.Code[initPosition:l.Ptr]
 }
 
 func (l *Lex) skipWhitespace() {
-	for unicode.IsSpace(rune(l.Code[l.Cursor])) {
+	for isBlank(rune(l.CChar)) {
 		l.next()
 	}
 }
@@ -78,33 +80,36 @@ func (l *Lex) skipWhitespace() {
 func (l *Lex) GetToken() Token {
 	var token Token
 
-	l.skipWhitespace()
 	if int(l.Cursor) == len(l.Code) {
 		token = Token{Data: "", Type: EOF}
 	}
 
-	data := l.next()
+		
+	l.skipWhitespace()
 
-	switch data {
+	switch l.CChar {
 	// First analyze single rune tokens
 	case '=' :
 		token = Token{Data: "", Type: BOOLOP}
+	case ',' :
+		token = Token{Data: ",", Type: COMMA}
 	case 0:
 		token = Token{Data: "", Type: EOF}
 	default:
-		if isLetter(data){
+		if isLetter(rune(l.CChar)){
 			literal := l.scanFullSequence(isLetter)
 			tokenType := LookupToken(literal) 
 			token = Token{Data: literal, Type: tokenType}
-			
-		} else if (isDigit(data)) {
+		} else if (isDigit(rune(l.CChar))) {
 			literal := l.scanFullSequence(isDigit)
 			var tokenType uint = NUMBER // token.Type
 			token = Token{Data: literal, Type: tokenType}
 		} else {
 			token = Token{Data: "", Type: UNKNOWN}
 		}
+		return token
 	}
 
+	l.next()
 	return token
 }

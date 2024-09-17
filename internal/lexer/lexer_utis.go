@@ -6,7 +6,9 @@ import (
 )
 
 var Batata = map[string]uint{
-	"SELECT": SELECT,
+	"SELECT": 	SELECT,
+	"FROM": 	FROM,
+	"WHERE": 	WHERE,
 }
 
 func isLetter(t rune) bool {
@@ -22,7 +24,11 @@ func isDigit(t rune) bool {
 }
 
 func LookupToken(token string) uint {
-	return Batata[strings.ToUpper(token)]
+	meaning := Batata[strings.ToUpper(token)]
+	if meaning == 0 {
+		return IDENTIFIER
+	}
+	return meaning
 }
 
 func isBlank(char rune) bool {
@@ -33,6 +39,7 @@ func isBlank(char rune) bool {
 		return true
 	case ' ':
 		return true
+
 	default:
 		return false
 	}
