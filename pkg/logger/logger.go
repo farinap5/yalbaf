@@ -6,6 +6,3 @@ const (
 	INF // Info
 	WRG // Warning
 )
-
-
-func

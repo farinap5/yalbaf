@@ -1,22 +1,29 @@
 package lexer
 
-import "unicode/utf8"
+import (
+	"unicode"
+	"unicode/utf8"
+)
 
 const (
 	ERROR = iota
 	EOF
+	UNKNOWN
 	WS // White Space
 	STRING
 	NUMBER
-	COMMENT
 	WILDCARD
 	OPERATOR
 	
 	BOOLOP // Boolean Operator
 
+	COMMENT
+
 	// ()
 	OPENGRP
 	CLOSEGRP
+
+	SELECT
 )
 
 type Token struct {
@@ -51,19 +58,27 @@ func (l *Lex) next() rune {
 }
 
 func (l *Lex) scanFullSequence(b func(rune) bool) string {
-	initPosition := l.Cursor
+	initPosition := l.Cursor-1
 	nextSymbol := l.next()
 	
 	for b(nextSymbol) {
 		nextSymbol = l.next()
 	}
 
-	return l.Code[initPosition:l.Cursor]
+	return l.Code[initPosition:l.Cursor-1]
 }
+
+func (l *Lex) skipWhitespace() {
+	for unicode.IsSpace(rune(l.Code[l.Cursor])) {
+		l.next()
+	}
+}
+
 
 func (l *Lex) GetToken() Token {
 	var token Token
 
+	l.skipWhitespace()
 	if int(l.Cursor) == len(l.Code) {
 		token = Token{Data: "", Type: EOF}
 	}
@@ -74,15 +89,20 @@ func (l *Lex) GetToken() Token {
 	// First analyze single rune tokens
 	case '=' :
 		token = Token{Data: "", Type: BOOLOP}
+	case 0:
+		token = Token{Data: "", Type: EOF}
 	default:
 		if isLetter(data){
 			literal := l.scanFullSequence(isLetter)
-			tokenType = LookupToken(literal) // token.Type
-			tokenLiteral = literal // token.Data
+			tokenType := LookupToken(literal) 
+			token = Token{Data: literal, Type: tokenType}
+			
 		} else if (isDigit(data)) {
 			literal := l.scanFullSequence(isDigit)
-			tokenType = NUMBER // token.Type
-			tokenLiteral = literal // token.Data
+			var tokenType uint = NUMBER // token.Type
+			token = Token{Data: literal, Type: tokenType}
+		} else {
+			token = Token{Data: "", Type: UNKNOWN}
 		}
 	}
 

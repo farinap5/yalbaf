@@ -5,8 +5,8 @@ import (
 	"unicode"
 )
 
-var Batata = map[string]string{
-	"SELECT": "batata",
+var Batata = map[string]uint{
+	"SELECT": SELECT,
 }
 
 func isLetter(t rune) bool {
@@ -21,7 +21,7 @@ func isDigit(t rune) bool {
 	return unicode.IsDigit(t)
 }
 
-func LookupToken(token string) string {
+func LookupToken(token string) uint {
 	return Batata[strings.ToUpper(token)]
 }
 
