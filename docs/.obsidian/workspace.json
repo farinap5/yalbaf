@@ -43,9 +43,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "c796a6fb138956c2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Cronograma.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       },
       {
         "id": "4408d3f489a9ae2b",
@@ -126,7 +138,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Lexer.md",
+                "file": "Cronograma.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -143,7 +155,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Lexer.md",
+                "file": "Cronograma.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -166,7 +178,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Lexer.md"
+                "file": "Cronograma.md"
               }
             }
           }
@@ -187,11 +199,14 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b3a665032408d60f",
+  "active": "c796a6fb138956c2",
   "lastOpenFiles": [
-    "Referências.md",
-    "Lexer.md",
+    "Proxy Reverso.md",
     "Welcome.md",
+    "Parser.md",
+    "Cronograma.md",
+    "Lexer.md",
+    "Referências.md",
     "template/Default.md",
     "template"
   ]
