@@ -10,6 +10,7 @@ const (
 	NUMBER
 	WILDCARD
 	OPERATOR
+	DOTCOMMA
 	
 	BOOLOP // Boolean Operator
 
@@ -40,7 +41,7 @@ type Lex struct {
 
 
 /*
-	Init will create a new lexer for a different sentence
+	Init will create a new lexer for a new sentence
 */
 func Init(Data string) *Lex {
 	lex := new(Lex)
@@ -93,6 +94,8 @@ func (l *Lex) GetToken() Token {
 		token = Token{Data: "", Type: BOOLOP}
 	case ',' :
 		token = Token{Data: ",", Type: COMMA}
+	case ';' :
+		token = Token{Data: ";", Type: DOTCOMMA}
 	case 0:
 		token = Token{Data: "", Type: EOF}
 	default:
