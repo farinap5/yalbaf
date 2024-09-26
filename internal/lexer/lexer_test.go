@@ -1,8 +1,9 @@
-package lexer
+package lexer_test
 
 import (
 	"testing"
-	"log"
+	"github.com/farinap5/yalbaf/internal/lexer"
+
 )
 
 /*
@@ -15,47 +16,47 @@ import (
 	Token: ;      | Type: 9
 */
 func TestLexerBasic(t *testing.T) {
-	l := Init("SELECT xa,y FROM any;")
+	l := lexer.Init("SELECT xa,y FROM any;")
 	
 	token := l.GetToken()
-	log.Printf("Token: %s | Type: %d\n", token.Data, token.Type)
+	t.Logf("Token: %s | Type: %d\n", token.Data, token.Type)
 	if token.Type != 15 {
 		t.Error("Not the expected token type")
 	}
 
 	token = l.GetToken()
-	log.Printf("Token: %s | Type: %d\n", token.Data, token.Type)
-	if token.Type != 10 {
+	t.Logf("Token: %s | Type: %d\n", token.Data, token.Type)
+	if token.Type != 4 {
 		t.Error("Not the expected token type")
 	}
 
 	token = l.GetToken()
-	log.Printf("Token: %s | Type: %d\n", token.Data, token.Type)
-	if token.Type != 10 {
+	t.Logf("Token: %s | Type: %d\n", token.Data, token.Type)
+	if token.Type != 12 {
 		t.Error("Not the expected token type")
 	}
 
 	token = l.GetToken()
-	log.Printf("Token: %s | Type: %d\n", token.Data, token.Type)
-	if token.Type != 10 {
+	t.Logf("Token: %s | Type: %d\n", token.Data, token.Type)
+	if token.Type != 4 {
 		t.Error("Not the expected token type")
 	}
 
 	token = l.GetToken()
-	log.Printf("Token: %s | Type: %d\n", token.Data, token.Type)
-	if token.Type != 10 {
+	t.Logf("Token: %s | Type: %d\n", token.Data, token.Type)
+	if token.Type != 16 {
 		t.Error("Not the expected token type")
 	}
 
 	token = l.GetToken()
-	log.Printf("Token: %s | Type: %d\n", token.Data, token.Type)
-	if token.Type != 10 {
+	t.Logf("Token: %s | Type: %d\n", token.Data, token.Type)
+	if token.Type != 4 {
 		t.Error("Not the expected token type")
 	}
 
 	token = l.GetToken()
-	log.Printf("Token: %s | Type: %d\n", token.Data, token.Type)
-	if token.Type != 10 {
+	t.Logf("Token: %s | Type: %d\n", token.Data, token.Type)
+	if token.Type != 9 {
 		t.Error("Not the expected token type")
 	}
 }
