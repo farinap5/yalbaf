@@ -21,8 +21,8 @@ tags:
 
 • 7ª semana: Implementação e teste; 
 - [x] Primeira versão estável do lexer para expressões simples.
-- [ ] Implementar funções no [[Lexer]]. Ter uma ultima versão estável.
-- [ ] Começar implementação do [[Parser]].
+- [x] Implementar funções no [[Lexer]]. Ter uma ultima versão estável.
+- [x] Começar implementação do [[Parser]].
 
 • 8ª semana: Implementação e teste;
 - [ ] Implementar parsing de expressões simples.
