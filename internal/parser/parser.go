@@ -10,7 +10,9 @@ type Parser struct {
 	TrashHold int
 }
 
-
+/*
+	Create new parser
+*/
 func Init(lexer lexer.Lex) *Parser {
 	p := new(Parser)
 	p.Lexer = lexer
@@ -40,16 +42,10 @@ func (p *Parser) sttmSeq() int {
 }
 
 func (p *Parser) sttm() int {
-	p.parserGetToken()
-
 	switch p.Token.Type {
 	case lexer.SELECT:
-		return p.sttmSelect()
+		return p.SttmSelect()
 	}
 	return 0
 }
 
-func (p *Parser) sttmSelect() int {
-	p.parserGetToken()
-	return 0
-}

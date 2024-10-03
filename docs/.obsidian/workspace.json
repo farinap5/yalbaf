@@ -62,7 +62,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cronograma.md",
+                "file": "Parser.md",
                 "mode": "source",
                 "source": false
               }
@@ -150,7 +150,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Cronograma.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -167,7 +166,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Cronograma.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -189,9 +187,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Cronograma.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -211,15 +207,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "0989c71689689f9c",
+  "active": "0f3d0e7caddba6d4",
   "lastOpenFiles": [
     "Parser.md",
-    "Parser BNF.md",
-    "Cronograma.md",
-    "Proxy Reverso.md",
-    "Welcome.md",
-    "Lexer.md",
     "Referências.md",
+    "Proxy Reverso.md",
+    "Lexer.md",
+    "Cronograma.md",
+    "Parser BNF.md",
+    "Welcome.md",
     "template/Default.md",
     "template"
   ]

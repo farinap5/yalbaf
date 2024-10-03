@@ -24,6 +24,7 @@ const (
 	SELECT
 	FROM
 	WHERE
+	UNION
 )
 
 type Token struct {
@@ -96,6 +97,10 @@ func (l *Lex) GetToken() Token {
 		token = Token{Data: ",", Type: COMMA}
 	case ';' :
 		token = Token{Data: ";", Type: DOTCOMMA}
+	case '(' :
+		token = Token{Data: "(", Type: OPENGRP}
+	case ')' :
+		token = Token{Data: ")", Type: CLOSEGRP}
 	case 0:
 		token = Token{Data: "", Type: EOF}
 	default:

@@ -9,6 +9,7 @@ var Batata = map[string]uint{
 	"SELECT": 	SELECT,
 	"FROM": 	FROM,
 	"WHERE": 	WHERE,
+	"UNION":	UNION,
 }
 
 func isLetter(t rune) bool {
