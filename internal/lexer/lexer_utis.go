@@ -5,11 +5,14 @@ import (
 	"unicode"
 )
 
-var Batata = map[string]uint{
+var SymTable = map[string]uint{
 	"SELECT": 	SELECT,
 	"FROM": 	FROM,
 	"WHERE": 	WHERE,
 	"UNION":	UNION,
+	"LIMIT":	LIMIT,
+	"OR":		BOOLOP,
+	"AND":		BOOLOP,
 }
 
 func isLetter(t rune) bool {
@@ -25,7 +28,7 @@ func isDigit(t rune) bool {
 }
 
 func LookupToken(token string) uint {
-	meaning := Batata[strings.ToUpper(token)]
+	meaning := SymTable[strings.ToUpper(token)]
 	if meaning == 0 {
 		return IDENTIFIER
 	}

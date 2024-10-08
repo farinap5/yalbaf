@@ -21,6 +21,13 @@ func (p *Parser) SttmSelect() int {
 		}
 	}
 
+	if p.Token.Type == lexer.LIMIT {
+		p.parserGetToken()
+		if p.Token.Type != lexer.NUMBER {
+			return 0
+		}
+	}
+
 
 	return 0
 }

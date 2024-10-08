@@ -12,7 +12,7 @@ const (
 	OPERATOR
 	DOTCOMMA
 	
-	BOOLOP // Boolean Operator
+	BOOLOP // Boolean Operator AND OR
 
 	COMMENT
 	COMMA
@@ -25,6 +25,7 @@ const (
 	FROM
 	WHERE
 	UNION
+	LIMIT
 )
 
 type Token struct {
