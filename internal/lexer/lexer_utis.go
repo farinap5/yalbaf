@@ -13,6 +13,9 @@ var SymTable = map[string]uint{
 	"LIMIT":	LIMIT,
 	"OR":		BOOLOP,
 	"AND":		BOOLOP,
+	"AS":		AS,
+	"GROUP":	GROUP,
+	"BY":		BY,
 }
 
 func isLetter(t rune) bool {

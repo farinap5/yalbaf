@@ -3,6 +3,7 @@ package parser
 import "github.com/farinap5/yalbaf/internal/lexer"
 
 func (p *Parser) SttmSelect() int {
+	auxPts := 0
 	p.parserGetToken()
 
 	p.parseColumn()
@@ -10,7 +11,10 @@ func (p *Parser) SttmSelect() int {
 	if p.Token.Type == lexer.FROM {
 		p.parserGetToken()
 		if p.Token.Type != lexer.IDENTIFIER {
-			return 0;
+			// TODO: test if subquery gone right
+			auxPts += p.parseTableOrSubquery()
+		} else {
+			auxPts++
 		}
 	}
 
@@ -34,9 +38,10 @@ func (p *Parser) SttmSelect() int {
 
 func (p *Parser) parseColumn() int {
 	if p.Token.Type != lexer.IDENTIFIER {
-		/*if p.Token.Type == lexer.OPENGRP { // Validate subqueries and expressions.
+		p.parserGetToken()
+		if p.Token.Type == lexer.OPENGRP { // Validate subqueries and expressions
 
-		}*/
+		}
 		return 0
 	}
 	p.parserGetToken()
@@ -71,5 +76,29 @@ func (p *Parser) parseWhere() int {
 	}
 	p.parserGetToken()
 
+	return 1
+}
+
+
+func (p *Parser) parseTableOrSubquery() int {
+	if p.Token.Type == lexer.IDENTIFIER {
+		p.parserGetToken()
+		if p.Token.Type == lexer.AS {
+			p.parserGetToken()
+			if p.Token.Type == lexer.IDENTIFIER {
+				return 1
+			}
+			return 0
+		}
+		return 1
+	}
+	
+	if p.Token.Type == lexer.OPENGRP {
+		pts := p.SttmSelect()
+		if p.Token.Type != lexer.CLOSEGRP {
+			return 0
+		}
+		return pts + 1
+	}
 	return 1
 }

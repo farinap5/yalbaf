@@ -16,6 +16,7 @@ const (
 
 	COMMENT
 	COMMA
+	PLUS
 
 	// ()
 	OPENGRP
@@ -26,6 +27,9 @@ const (
 	WHERE
 	UNION
 	LIMIT
+	AS
+	GROUP
+	BY
 )
 
 type Token struct {
@@ -102,6 +106,10 @@ func (l *Lex) GetToken() Token {
 		token = Token{Data: "(", Type: OPENGRP}
 	case ')' :
 		token = Token{Data: ")", Type: CLOSEGRP}
+	case '"','\'','`' :
+		token = Token{Data: ")", Type: STRING}
+	case '+' :
+		token = Token{Data: "+", Type: PLUS}
 	case 0:
 		token = Token{Data: "", Type: EOF}
 	default:

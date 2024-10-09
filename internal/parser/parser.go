@@ -44,8 +44,25 @@ func (p *Parser) sttmSeq() int {
 func (p *Parser) sttm() int {
 	switch p.Token.Type {
 	case lexer.SELECT:
-		return p.SttmSelect()
+		return p.SttmSelect() + 1
+	case lexer.UNION:
+		p.parserGetToken()
+		return p.SttmSelect() + 1
 	}
 	return 0
 }
 
+func (p *Parser) parseStringExpr() int {
+	if p.Token.Type != lexer.STRING {
+		return 0
+	}
+
+	for {
+		if p.Token.Type == lexer.STRING {
+			break
+		}
+		p.parserGetToken()
+	}
+
+	return 1
+}
