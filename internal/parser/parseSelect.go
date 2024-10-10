@@ -83,14 +83,21 @@ func (p *Parser) parseWhere() int {
 func (p *Parser) parseTableOrSubquery() int {
 	if p.Token.Type == lexer.IDENTIFIER {
 		p.parserGetToken()
+		if p.Token.Type == lexer.DOT {
+			p.parserGetToken()
+			if p.Token.Type != lexer.IDENTIFIER {
+				return 0
+			}
+			p.parserGetToken()
+		}
+
 		if p.Token.Type == lexer.AS {
 			p.parserGetToken()
-			if p.Token.Type == lexer.IDENTIFIER {
-				return 1
+			if p.Token.Type != lexer.IDENTIFIER {
+				return 0
 			}
-			return 0
+			p.parserGetToken()
 		}
-		return 1
 	}
 	
 	if p.Token.Type == lexer.OPENGRP {

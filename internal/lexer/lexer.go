@@ -17,6 +17,7 @@ const (
 	COMMENT
 	COMMA
 	PLUS
+	DOT
 
 	// ()
 	OPENGRP
@@ -110,6 +111,8 @@ func (l *Lex) GetToken() Token {
 		token = Token{Data: ")", Type: STRING}
 	case '+' :
 		token = Token{Data: "+", Type: PLUS}
+	case '.' :
+		token = Token{Data: ".", Type: DOT}
 	case 0:
 		token = Token{Data: "", Type: EOF}
 	default:
