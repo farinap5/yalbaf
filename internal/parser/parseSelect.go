@@ -38,7 +38,7 @@ func (p *Parser) SttmSelect() int {
 
 func (p *Parser) parseColumn() int {
 	if p.Token.Type != lexer.IDENTIFIER {
-		p.parserGetToken()
+		//p.parserGetToken()
 		if p.Token.Type == lexer.OPENGRP { // Validate subqueries and expressions
 
 		}
@@ -49,6 +49,7 @@ func (p *Parser) parseColumn() int {
 	
 
 	if p.Token.Type == lexer.COMMA {
+		p.parserGetToken()
 		return p.parseColumn()
 	}
 

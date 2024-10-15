@@ -3,8 +3,10 @@
         "auxt",
         "BOOLOP",
         "CLOSEGRP",
+        "farinap",
         "OPENGRP",
         "sttm",
-        "Subquery"
+        "Subquery",
+        "yalbaf"
     ]
 }

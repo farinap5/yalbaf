@@ -5,15 +5,17 @@ import (
 )
 
 type Parser struct {
-	Lexer lexer.Lex
-	Token lexer.Token
-	TrashHold int
+	Lexer 		*lexer.Lex
+	Token 		lexer.Token
+	TrashHold 	int
+	Error 		bool
+	count		int
 }
 
 /*
 	Create new parser
 */
-func Init(lexer lexer.Lex) *Parser {
+func Init(lexer *lexer.Lex) *Parser {
 	p := new(Parser)
 	p.Lexer = lexer
 	p.TrashHold = 3
@@ -35,6 +37,7 @@ func (p *Parser) Eval() int {
 
 func (p *Parser) sttmSeq() int {
 	v := p.sttm()
+	p.parserGetToken()
 	for p.Token.Type == lexer.DOTCOMMA {
 		v += p.sttm()
 	}
