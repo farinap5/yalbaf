@@ -22,6 +22,12 @@ const (
 	// ()
 	OPENGRP
 	CLOSEGRP
+	EQUAL
+	GT
+	LT
+	GTE
+	LTE
+	NE
 
 	SELECT
 	FROM
@@ -97,8 +103,6 @@ func (l *Lex) GetToken() Token {
 
 	switch l.CChar {
 	// First analyze single rune tokens
-	case '=' :
-		token = Token{Data: "", Type: BOOLOP}
 	case ',' :
 		token = Token{Data: ",", Type: COMMA}
 	case ';' :
@@ -113,6 +117,12 @@ func (l *Lex) GetToken() Token {
 		token = Token{Data: "+", Type: PLUS}
 	case '.' :
 		token = Token{Data: ".", Type: DOT}
+	case '>' :
+		token = Token{Data: ">", Type: GT}
+	case '<' :
+		token = Token{Data: "<", Type: LT}
+	case '=' :
+		token = Token{Data: "=", Type: EQUAL}
 	case 0:
 		token = Token{Data: "", Type: EOF}
 	default:

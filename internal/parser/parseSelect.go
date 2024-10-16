@@ -1,12 +1,16 @@
 package parser
 
-import "github.com/farinap5/yalbaf/internal/lexer"
+import (
+	"github.com/farinap5/yalbaf/internal/lexer"
+)
 
 func (p *Parser) SttmSelect() int {
 	auxPts := 0
 	p.parserGetToken()
 
-	p.parseColumn()
+	if p.Token.Type != lexer.EOF {
+		p.parseColumn()
+	}
 
 	if p.Token.Type == lexer.FROM {
 		p.parserGetToken()
@@ -16,6 +20,7 @@ func (p *Parser) SttmSelect() int {
 		} else {
 			auxPts++
 		}
+		p.parserGetToken()
 	}
 
 
@@ -26,6 +31,14 @@ func (p *Parser) SttmSelect() int {
 	}
 
 	if p.Token.Type == lexer.LIMIT {
+		p.parserGetToken()
+		if p.Token.Type != lexer.NUMBER {
+			return 0
+		}
+	}
+
+
+	if p.Token.Type == lexer.UNION {
 		p.parserGetToken()
 		if p.Token.Type != lexer.NUMBER {
 			return 0
@@ -58,8 +71,9 @@ func (p *Parser) parseColumn() int {
 
 func (p *Parser) parseWhere() int {
 	p.parserGetToken()
+	return p.parseExp()
 
-	if p.Token.Type != lexer.IDENTIFIER {
+	/*if p.Token.Type != lexer.IDENTIFIER {
 		return 0
 	}
 	p.parserGetToken()
@@ -77,7 +91,7 @@ func (p *Parser) parseWhere() int {
 	}
 	p.parserGetToken()
 
-	return 1
+	return 1*/
 }
 
 

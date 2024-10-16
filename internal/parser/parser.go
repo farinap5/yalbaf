@@ -40,7 +40,7 @@ func (p *Parser) Eval() int {
 
 func (p *Parser) sttmSeq() int {
 	v := p.sttm()
-	p.parserGetToken()
+	//p.parserGetToken()
 	for p.Token.Type == lexer.DOTCOMMA {
 		p.parserGetToken()
 		v += p.sttm()
@@ -59,9 +59,9 @@ func (p *Parser) sttm() int {
 	return 0
 }
 
-func (p *Parser) parseStringExpr() int {
+func (p *Parser) parseStringExpr() bool {
 	if p.Token.Type != lexer.STRING {
-		return 0
+		return true
 	}
 
 	for {
@@ -71,5 +71,5 @@ func (p *Parser) parseStringExpr() int {
 		p.parserGetToken()
 	}
 
-	return 1
+	return false
 }
