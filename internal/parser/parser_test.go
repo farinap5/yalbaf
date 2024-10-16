@@ -1,16 +1,18 @@
-package main
+package parser_test
 
 import (
-	"fmt"
+	"testing"
 
 	"github.com/farinap5/yalbaf/internal/lexer"
 	"github.com/farinap5/yalbaf/internal/parser"
 )
 
-func main() {
+func TestSelectBasic(t *testing.T) {
 	exp := "SELECT 6,a,b FROM any;"
 	l := lexer.Init(exp)
 	p := parser.Init(l)
 	c := p.Eval()
-	fmt.Println(c)
+	if c != 10 {
+		t.Error("Not the expected token type")
+	}
 }

@@ -19,17 +19,20 @@ func Init(lexer *lexer.Lex) *Parser {
 	p := new(Parser)
 	p.Lexer = lexer
 	p.TrashHold = 3
+	p.count = 0
 	return p
 }
 
 func (p *Parser) parserGetToken() {
+	p.count++
 	p.Token = p.Lexer.GetToken()
 }
 
 func (p *Parser) Eval() int {
 	p.parserGetToken()
-	if p.Token.Type != lexer.EOF || p.Token.Type != lexer.ERROR || p.Token.Type != lexer.UNKNOWN {
-		return p.sttmSeq()
+	if p.Token.Type != lexer.EOF && p.Token.Type != lexer.ERROR && p.Token.Type != lexer.UNKNOWN {
+		p.sttmSeq()
+		return p.count
 	} else {
 		return 0
 	}
@@ -39,6 +42,7 @@ func (p *Parser) sttmSeq() int {
 	v := p.sttm()
 	p.parserGetToken()
 	for p.Token.Type == lexer.DOTCOMMA {
+		p.parserGetToken()
 		v += p.sttm()
 	}
 	return v

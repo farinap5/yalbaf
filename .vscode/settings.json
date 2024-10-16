@@ -3,6 +3,7 @@
         "auxt",
         "BOOLOP",
         "CLOSEGRP",
+        "DOTCOMMA",
         "farinap",
         "OPENGRP",
         "sttm",
