@@ -61,15 +61,17 @@ func (p *Parser) sttm() int {
 
 func (p *Parser) parseStringExpr() bool {
 	if p.Token.Type != lexer.STRING {
-		return true
+		return false
 	}
+	aux := p.Token.Type // store the token to use the same for breaking the loop
+	p.parserGetToken()
 
 	for {
-		if p.Token.Type == lexer.STRING {
+		if p.Token.Type == lexer.STRING && p.Token.Type == aux {
 			break
 		}
 		p.parserGetToken()
 	}
 
-	return false
+	return true
 }

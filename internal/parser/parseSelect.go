@@ -52,10 +52,10 @@ func (p *Parser) SttmSelect() int {
 func (p *Parser) parseColumn() int {
 	if p.Token.Type != lexer.IDENTIFIER && p.Token.Type != lexer.NUMBER {
 		//p.parserGetToken()
-		if p.Token.Type == lexer.OPENGRP { // Validate subqueries and expressions
-
+		if p.Token.Type == lexer.OPENGRP { // Validate sub-queries and expressions
+			p.sttm()
 		}
-		return 0
+		p.parseStringExpr()
 	}
 	p.parserGetToken()
 
