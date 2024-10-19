@@ -62,7 +62,7 @@ func (p *Parser) parseExp() int {
 	return 0
 }
 
-// parseExpGrp parses an expression group, which could be a parenthesized subexpression or a basic comparison.
+// parseExpGrp parses an expression group, which could be a parenthesized sub-expression or a basic comparison.
 func (p *Parser) parseExpGrp() int {
 	// Check if the expression is grouped with parentheses
 	if p.Token.Type == lexer.OPENGRP { // '('
@@ -85,7 +85,7 @@ func (p *Parser) parseExpGrp() int {
 
 // a = 1 a > 1
 func (p *Parser) parseSimpleExp() int {
-	if p.Token.Type != lexer.IDENTIFIER && p.Token.Type != lexer.NUMBER {
+	if p.Token.Type != lexer.IDENTIFIER && p.Token.Type != lexer.NUMBER && p.parseStringExpr() {
 		return 0
 	}
 	p.parserGetToken()
@@ -97,7 +97,7 @@ func (p *Parser) parseSimpleExp() int {
 	}
 	p.parserGetToken()
 
-	if p.Token.Type != lexer.NUMBER && p.Token.Type != lexer.IDENTIFIER {
+	if p.Token.Type != lexer.NUMBER && p.Token.Type != lexer.IDENTIFIER && p.parseStringExpr() {
 		return 0
 	}
 	p.parserGetToken()

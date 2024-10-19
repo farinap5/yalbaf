@@ -112,7 +112,7 @@ func (l *Lex) GetToken() Token {
 	case ')' :
 		token = Token{Data: ")", Type: CLOSEGRP}
 	case '"','\'','`' :
-		token = Token{Data: ")", Type: STRING}
+		token = Token{Data: "\"", Type: STRING}
 	case '+' :
 		token = Token{Data: "+", Type: PLUS}
 	case '.' :
