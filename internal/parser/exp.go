@@ -85,7 +85,7 @@ func (p *Parser) parseExpGrp() int {
 
 // a = 1 a > 1
 func (p *Parser) parseSimpleExp() int {
-	if p.Token.Type != lexer.IDENTIFIER && p.Token.Type != lexer.NUMBER && p.parseStringExpr() {
+	if p.Token.Type != lexer.IDENTIFIER && p.Token.Type != lexer.NUMBER && !p.parseStringExpr() {
 		return 0
 	}
 	p.parserGetToken()
@@ -97,7 +97,7 @@ func (p *Parser) parseSimpleExp() int {
 	}
 	p.parserGetToken()
 
-	if p.Token.Type != lexer.NUMBER && p.Token.Type != lexer.IDENTIFIER && p.parseStringExpr() {
+	if p.Token.Type != lexer.NUMBER && p.Token.Type != lexer.IDENTIFIER && !p.parseStringExpr() {
 		return 0
 	}
 	p.parserGetToken()
