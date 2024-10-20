@@ -2,13 +2,14 @@ package server
 
 import (
 	"io"
+	"log"
 	"net/http"
 	"time"
 )
 
 /*
 	HandlerFunc is a adapter. It allows us to pass a function that will receive
-	the trafic on the second stage. Fist we gonna analyse the package with the
+	the traffic on the second stage. Fist we gonna analyze the package with the
 	parser, implementing for all those parameters that must be suitable for tests.
 
 	If it could not spot irregularities for that request it must be passed to the proxy.
@@ -16,7 +17,7 @@ import (
 
 	TODO: change name to ServeHTTP and use as handler.
 */
-func analyser(prx http.HandlerFunc) http.HandlerFunc {
+func (s Server)analyzer(prx http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		/* 
 			Implement everything here
@@ -32,15 +33,16 @@ func analyser(prx http.HandlerFunc) http.HandlerFunc {
 	Passthrough proxy. Mirror the interation of the client with the upstream.
 	The body must update in chunks.
 */
-func proxy(target string) http.HandlerFunc {
+func (s Server)proxy(target string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		endpoint := target+r.URL.RawPath
+		endpoint := target+r.RequestURI
 		req, err := http.NewRequest(r.Method, endpoint, r.Body)
 		if err != nil {
 			// implement log pkg for all errors
 			http.Error(w, err.Error(), http.StatusBadGateway)
 			return
 		}
+		log.Printf("edp=%s adr=%s uri=%s a=%s\n",endpoint, r.RemoteAddr, r.RequestURI, r.URL.Query().Get("a"))
 
 		req.Header = r.Header // mirror headers
 		client := &http.Client{
