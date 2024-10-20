@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	exp := "SELECT xa,y FROM any;"
+	exp := "SELECT/* um*cmt */xa/* um*cmt,y FROM x;"
 	l := lexer.Init(exp)
 	t := l.GetToken()
 	fmt.Printf("Token: %s | Type: %d\n", t.Data, t.Type)

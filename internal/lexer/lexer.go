@@ -91,6 +91,28 @@ func (l *Lex) skipWhitespace() {
 }
 
 
+func (l *Lex) skipComments() {
+	if l.CChar != '/' {return}
+	l.next()
+	if l.CChar != '*' {return}
+	l.next()
+
+	for {
+		if l.CChar == 0 {
+			break
+		}
+		if l.CChar == '*' {
+			l.next()
+			if l.CChar == '/' {
+				l.next()
+				break
+			}
+		}
+
+		l.next()
+	}
+}
+
 func (l *Lex) GetToken() Token {
 	var token Token
 
@@ -100,6 +122,7 @@ func (l *Lex) GetToken() Token {
 
 		
 	l.skipWhitespace()
+	l.skipComments()
 
 	switch l.CChar {
 	// First analyze single rune tokens
