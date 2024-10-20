@@ -43,9 +43,9 @@ func (p *Parser) parseExpGrp() int {
 }*/
 
 
-func (p *Parser) parseExp() int {
-	if err := p.parseExpGrp(); err != 0 {
-		return err
+func (p *Parser) parseExp() bool {
+	if !p.parseExpGrp() {
+		return false
 	}
 
 	// Check for boolean operators (AND, OR)
@@ -53,54 +53,54 @@ func (p *Parser) parseExp() int {
 		p.parserGetToken()
 
 		// Parse the right-hand side of the expression
-		if err := p.parseExpGrp(); err != 0 {
-			return err
+		if !p.parseExpGrp() {
+			return false
 		}
 
 	}
 
-	return 0
+	return true
 }
 
 // parseExpGrp parses an expression group, which could be a parenthesized sub-expression or a basic comparison.
-func (p *Parser) parseExpGrp() int {
+func (p *Parser) parseExpGrp() bool {
 	// Check if the expression is grouped with parentheses
 	if p.Token.Type == lexer.OPENGRP { // '('
 		p.parserGetToken()
 		
 		// Parse the inner expression
-		if err := p.parseExp(); err != 0 {
-			return err
+		if !p.parseExp() {
+			return false
 		}
 
 		if p.Token.Type != lexer.CLOSEGRP { // ')'
-			return 0
+			return false
 		}
 		p.parserGetToken()
-		return 0
+		return true
 	}
 
 	return p.parseSimpleExp()
 }
 
 // a = 1 a > 1
-func (p *Parser) parseSimpleExp() int {
+func (p *Parser) parseSimpleExp() bool {
 	if p.Token.Type != lexer.IDENTIFIER && p.Token.Type != lexer.NUMBER && !p.parseStringExpr() {
-		return 0
+		return false
 	}
 	p.parserGetToken()
 
-	// =, >, <, >=, <=, !=
+	// =, >, <, >= (TODO), <= (TODO), != (TODO)
 	if p.Token.Type != lexer.EQUAL && p.Token.Type != lexer.GT && p.Token.Type != lexer.LT && 
 		p.Token.Type != lexer.GTE && p.Token.Type != lexer.LTE && p.Token.Type != lexer.NE {
-		return 0
+		return false
 	}
 	p.parserGetToken()
 
 	if p.Token.Type != lexer.NUMBER && p.Token.Type != lexer.IDENTIFIER && !p.parseStringExpr() {
-		return 0
+		return false
 	}
 	p.parserGetToken()
 
-	return 0
+	return true
 }

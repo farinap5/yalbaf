@@ -38,25 +38,29 @@ func (p *Parser) Eval() int {
 	}
 }
 
-func (p *Parser) sttmSeq() int {
-	v := p.sttm()
+func (p *Parser) sttmSeq() bool {
+	if !p.sttm() {
+		return false
+	}
 	//p.parserGetToken()
 	for p.Token.Type == lexer.DOTCOMMA {
 		p.parserGetToken()
-		v += p.sttm()
+		if !p.sttm() {
+			return false
+		}
 	}
-	return v
+	return true
 }
 
-func (p *Parser) sttm() int {
+func (p *Parser) sttm() bool {
 	switch p.Token.Type {
 	case lexer.SELECT:
-		return p.SttmSelect() + 1
+		return p.SttmSelect()
 	case lexer.UNION:
 		p.parserGetToken()
-		return p.SttmSelect() + 1
+		return p.SttmSelect()
 	}
-	return 0
+	return false
 }
 
 func (p *Parser) parseStringExpr() bool {
