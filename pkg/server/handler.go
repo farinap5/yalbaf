@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -28,8 +29,19 @@ func (s Server)analyzer(prx http.HandlerFunc) http.HandlerFunc {
 			}
 		}
 		if attack {
+			rid := GenRequestID(24)
+			
+			w.Header().Set("X-XYZ-ID",rid)
 			w.WriteHeader(403)
-			w.Write([]byte("Malicious request detected!"))
+
+			w.Write([]byte(fmt.Sprintf(`Blocked due to malicious request detected!
+Your IP: %s
+Request ID: %s
+Time: %s
+`, r.RemoteAddr, rid, "0000-00-00")))
+			endpoint := s.upstream+r.RequestURI
+			log.Printf("edp=%s adr=%s uri=%s err=\"Exploitation attempt\" rid=%s\n",
+				endpoint, r.RemoteAddr, r.RequestURI, rid)
 			return
 		}
 
@@ -43,6 +55,7 @@ func (s Server)analyzer(prx http.HandlerFunc) http.HandlerFunc {
 */
 func (s Server)proxy(target string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		rid := GenRequestID(24)
 		endpoint := target+r.RequestURI
 		req, err := http.NewRequest(r.Method, endpoint, r.Body)
 		if err != nil {
@@ -50,7 +63,7 @@ func (s Server)proxy(target string) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadGateway)
 			return
 		}
-		log.Printf("edp=%s adr=%s uri=%s a=%s\n",endpoint, r.RemoteAddr, r.RequestURI, r.URL.Query().Get("a"))
+		log.Printf("edp=%s adr=%s uri=%s",endpoint, r.RemoteAddr, r.RequestURI)
 
 		req.Header = r.Header // mirror headers
 		client := &http.Client{
@@ -58,6 +71,7 @@ func (s Server)proxy(target string) http.HandlerFunc {
 		}
 
 		CompileXForwardHead(req.Header, r.RemoteAddr)
+		req.Header.Add("X-XYZ-ID", rid)
 		
 		resp, err := client.Do(req)
 		if err != nil {
@@ -68,6 +82,7 @@ func (s Server)proxy(target string) http.HandlerFunc {
 
 		MirrorHeader(w.Header(), resp.Header)
 		w.WriteHeader(resp.StatusCode)
+		w.Header().Set("X-XYZ-ID", rid)
 
 		_, err = io.Copy(w, resp.Body)
 		if err != nil {
