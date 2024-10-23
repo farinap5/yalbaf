@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	exp := "SELECT 1,1,1,1 FROM y where a=1;"
+	exp := "SELECT a FROM b WHERE i=\"aa aa aa1\";"
 	l := lexer.Init(exp)
 	p := parser.Init(l)
 	c,b := p.Eval()

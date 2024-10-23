@@ -28,6 +28,11 @@ func (p *Parser) parserGetToken() {
 	p.Token = p.Lexer.GetToken()
 }
 
+func (p *Parser) parserGetTokenNoCount() {
+	//p.count++
+	p.Token = p.Lexer.GetToken()
+}
+
 func (p *Parser) Eval() (int, bool) {
 	p.parserGetToken()
 	if p.Token.Type != lexer.EOF && p.Token.Type != lexer.ERROR && p.Token.Type != lexer.UNKNOWN {
@@ -71,7 +76,7 @@ func (p *Parser) parseStringExpr() bool {
 		return false
 	}
 	aux := p.Token.Type // store the token to use the same for breaking the loop
-	p.parserGetToken()
+	p.parserGetTokenNoCount()
 
 	for {
 		if p.Token.Type == lexer.STRING && p.Token.Type == aux {
@@ -80,7 +85,7 @@ func (p *Parser) parseStringExpr() bool {
 		if p.Token.Type == lexer.EOF {
 			return false
 		}
-		p.parserGetToken()
+		p.parserGetTokenNoCount()
 	}
 
 	return true

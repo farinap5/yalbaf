@@ -19,10 +19,23 @@ import (
 */
 func (s Server)analyzer(prx http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		
+		attack := false
+		queryParams := r.URL.Query()
+		for _, values := range queryParams {
+			for _, value := range values {
+				if s.waf.Test(value) && !attack {attack = true}
+			}
+		}
+		if attack {
+			w.WriteHeader(403)
+			w.Write([]byte("Attack detected!"))
+			return
+		}
 		/* 
 			Implement everything here
 
-			w.WriteHeader(403)
+			
 			io.Copy(w, bloq-page)
 		*/
 		prx(w, r)

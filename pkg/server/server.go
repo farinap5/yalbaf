@@ -9,6 +9,8 @@ import (
 	"sync"
 	"syscall"
 	"time"
+
+	"github.com/farinap5/yalbaf/internal/waf"
 )
 
 type Server struct {
@@ -18,6 +20,7 @@ type Server struct {
 	path 		string
 	key 		string
 	crt 		string
+	waf 		waf.Waf
 }
 
 /*
@@ -50,6 +53,8 @@ func (s *Server)SetCertificate(key,crt string) {
 
 func (s Server)createServer() (*http.Server,*http.Server) {
 	serverMux := http.NewServeMux()
+
+	s.waf = *waf.New() // Create a WAF
 	serverMux.HandleFunc(s.path, s.analyzer(s.proxy(s.upstream)))
 
 	
