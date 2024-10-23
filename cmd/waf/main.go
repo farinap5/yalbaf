@@ -8,9 +8,10 @@ import (
 )
 
 func main() {
-	exp := "SELECT 1,1,1,1 FROM y where a=1;"
-	l := lexer.Init(exp)
+	arg := "admin'/*"
+	query := fmt.Sprintf("SELECT ID FROM users WHERE username='%s' AND passwd='aaaa';",arg)
+	l := lexer.Init(query)
 	p := parser.Init(l)
 	c,b := p.Eval()
-	fmt.Println(c,b)
+	fmt.Println(c,b,query)
 }

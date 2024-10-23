@@ -21,9 +21,9 @@ func (s Server)analyzer(prx http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		/* 
 			Implement everything here
-			
+
 			w.WriteHeader(403)
-			io.Copy(w, bloq page)
+			io.Copy(w, bloq-page)
 		*/
 		prx(w, r)
 	}

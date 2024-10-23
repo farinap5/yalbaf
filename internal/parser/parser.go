@@ -28,13 +28,12 @@ func (p *Parser) parserGetToken() {
 	p.Token = p.Lexer.GetToken()
 }
 
-func (p *Parser) Eval() int {
+func (p *Parser) Eval() (int, bool) {
 	p.parserGetToken()
 	if p.Token.Type != lexer.EOF && p.Token.Type != lexer.ERROR && p.Token.Type != lexer.UNKNOWN {
-		p.sttmSeq()
-		return p.count
+		return p.count, p.sttmSeq()
 	} else {
-		return 0
+		return 0, false
 	}
 }
 
@@ -45,6 +44,10 @@ func (p *Parser) sttmSeq() bool {
 	//p.parserGetToken()
 	for p.Token.Type == lexer.DOTCOMMA {
 		p.parserGetToken()
+		if p.Token.Type == lexer.EOF {
+			return true
+		}
+
 		if !p.sttm() {
 			return false
 		}
@@ -73,6 +76,9 @@ func (p *Parser) parseStringExpr() bool {
 	for {
 		if p.Token.Type == lexer.STRING && p.Token.Type == aux {
 			break
+		}
+		if p.Token.Type == lexer.EOF {
+			return false
 		}
 		p.parserGetToken()
 	}
