@@ -81,8 +81,8 @@ func (s Server)proxy(target string) http.HandlerFunc {
 		defer resp.Body.Close()
 
 		MirrorHeader(w.Header(), resp.Header)
-		w.WriteHeader(resp.StatusCode)
 		w.Header().Set("X-XYZ-ID", rid)
+		w.WriteHeader(resp.StatusCode)
 
 		_, err = io.Copy(w, resp.Body)
 		if err != nil {
