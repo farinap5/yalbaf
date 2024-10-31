@@ -22,6 +22,7 @@ upstream:
   root: https://farinap5.com
   timeout: 5
   path: /
+  vector: str
 `
 
 
@@ -37,6 +38,7 @@ type Server struct {
 		Root    string `yaml:"root"`
 		Timeout int    `yaml:"timeout"`
 		Path    string `yaml:"path"`
+		Vector  string `yaml:"vector"`
 	} `yaml:"upstream"`
 }
 
@@ -67,6 +69,7 @@ func main() {
 
 
 	s := server.New(serverConf.Upstream.Root)
+	log.Printf("Upstream %s\n", serverConf.Upstream.Root)
 	s.SetCertificate(serverConf.Server.Key, serverConf.Server.Crt)
 	log.Printf("Using Key from %s and certificate from %s\n", serverConf.Server.Key, serverConf.Server.Crt)
 
@@ -77,6 +80,9 @@ func main() {
 
 	s.SetPath(serverConf.Upstream.Path)
 	log.Printf("Path to %s\n", serverConf.Upstream.Path)
+
+	s.SetVector(serverConf.Upstream.Vector)
+	log.Printf("Vector %s\n", serverConf.Upstream.Vector)
 
 	s.StartServer()
 }

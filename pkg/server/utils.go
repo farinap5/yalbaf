@@ -15,9 +15,9 @@ func CompileXForwardHead(head http.Header, clientIP string) {
 
 // Generate unique request ID. It is used mostly for
 // debugging purpose.
-func GenRequestID(leng int) string {
+func GenRequestID(length int) string {
 	const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-	b := make([]byte, leng)
+	b := make([]byte, length)
 	for i := range b {
 		b[i] = letterBytes[rand.Intn(len(letterBytes))]
 	}

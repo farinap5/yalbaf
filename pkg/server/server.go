@@ -21,6 +21,8 @@ type Server struct {
 	key 		string
 	crt 		string
 	waf 		waf.Waf
+	
+	vector		string
 }
 
 /*
@@ -34,6 +36,7 @@ func New(ups string) Server {
 		path: "/",
 		key: "server.key",
 		crt: "server.crt",
+		vector: "str",
 	}
 	return s
 }
@@ -48,6 +51,10 @@ func (s *Server)SetHTTPSHost(host string) {
 
 func (s *Server)SetPath(path string) {
 	s.path = path
+}
+
+func (s *Server)SetVector(vector string) {
+	s.vector = vector
 }
 
 

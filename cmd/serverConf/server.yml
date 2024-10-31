@@ -9,3 +9,4 @@ upstream:
   root: https://farinap5.com
   timeout: 5
   path: /
+  vector: str

@@ -25,7 +25,15 @@ func (s Server)analyzer(prx http.HandlerFunc) http.HandlerFunc {
 		queryParams := r.URL.Query()
 		for _, values := range queryParams {
 			for _, value := range values {
-				if s.waf.Test(value) && !attack {attack = true}
+
+				if s.vector == "str" {
+					if s.waf.TestStr(value) && !attack {attack = true}
+				} else if s.vector == "int" {
+					if s.waf.TestInt(value) && !attack {attack = true}
+				} else {
+					if s.waf.TestStr(value) && !attack {attack = true}
+				}
+
 			}
 		}
 		if attack {
