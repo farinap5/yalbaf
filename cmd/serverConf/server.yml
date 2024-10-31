@@ -1,0 +1,11 @@
+server:
+  http: 8080
+  https: 4433
+  host: 0.0.0.0
+  key: /home/pietro/go/src/github.com/farinap5/yalbaf/keys/server.key
+  crt: /home/pietro/go/src/github.com/farinap5/yalbaf/keys/server.crt
+
+upstream:
+  root: https://farinap5.com
+  timeout: 5
+  path: /

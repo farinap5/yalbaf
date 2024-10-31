@@ -46,6 +46,11 @@ func (s *Server)SetHTTPSHost(host string) {
 	s.httpsHost = host
 }
 
+func (s *Server)SetPath(path string) {
+	s.path = path
+}
+
+
 func (s *Server)SetCertificate(key,crt string) {
 	s.key = key
 	s.crt = crt
