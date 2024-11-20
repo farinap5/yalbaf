@@ -39,6 +39,7 @@ func (s Server)analyzer(prx http.HandlerFunc) http.HandlerFunc {
 		if attack {
 			rid := GenRequestID(24)
 			
+			t := time.Now()
 			w.Header().Set("X-XYZ-ID",rid)
 			w.WriteHeader(403)
 
@@ -46,7 +47,7 @@ func (s Server)analyzer(prx http.HandlerFunc) http.HandlerFunc {
 Your IP: %s
 Request ID: %s
 Time: %s
-`, r.RemoteAddr, rid, "0000-00-00")))
+`, r.RemoteAddr, rid, t.Format("01-02-2006 15:04:05"))))
 			endpoint := s.upstream+r.RequestURI
 			log.Printf("edp=%s adr=%s uri=%s err=\"Exploitation attempt\" rid=%s\n",
 				endpoint, r.RemoteAddr, r.RequestURI, rid)

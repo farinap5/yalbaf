@@ -79,7 +79,7 @@ func main() {
 	log.Printf("HTTPS host on %s\n", serverConf.Server.Host+":"+serverConf.Server.HTTPS)
 
 	s.SetPath(serverConf.Upstream.Path)
-	log.Printf("Path to %s\n", serverConf.Upstream.Path)
+	log.Printf("Routing from %s\n", serverConf.Upstream.Path)
 
 	s.SetVector(serverConf.Upstream.Vector)
 	log.Printf("Vector %s\n", serverConf.Upstream.Vector)
