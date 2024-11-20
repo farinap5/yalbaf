@@ -6,7 +6,7 @@ server:
   crt: /home/pietro/go/src/github.com/farinap5/yalbaf/keys/server.crt
 
 upstream:
-  root: https://farinap5.com
+  root: http://0.0.0.0:8081
   timeout: 5
   path: /
-  vector: str
+  vector: int

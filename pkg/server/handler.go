@@ -9,7 +9,7 @@ import (
 )
 
 /*
-	HandlerFunc is a adapter. It allows us to pass a function that will receive
+	HandlerFunc is an adapter. It allows us to pass a function that will receive
 	the traffic on the second stage. Fist we gonna analyze the package with the
 	parser, implementing for all those parameters that must be suitable for tests.
 
