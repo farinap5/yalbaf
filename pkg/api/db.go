@@ -51,7 +51,7 @@ func rowsToJSON(rows *sql.Rows) (string, error) {
 }
 
 func (s *Server)QueryToJson(id string) (string, error) {
-	q := "SELECT cars.brand, cars.model FROM cars WHERE id=" + id + ";"
+	q := "SELECT brand, model FROM cars WHERE id=" + id + ";"
 	log.Printf("q='%s'", q)
 	
 	rows, err := s.db.Query(q)

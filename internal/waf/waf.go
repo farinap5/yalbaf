@@ -14,26 +14,26 @@ func New() *Waf {
 	return w
 }
 
-func (w *Waf)TestStr(arg string) bool {
+func (w *Waf)TestStr(arg string) (int, bool) {
 	query := fmt.Sprintf("SELECT a FROM b WHERE i='%s';",arg)
 	l := lexer.Init(query)
 	p := parser.Init(l)
 	c,b := p.Eval()
 
 	if !b || c!= 10 {
-		return true
+		return c-9, true
 	}
-	return false
+	return 0, false
 }
 
-func (w *Waf)TestInt(arg string) bool {
+func (w *Waf)TestInt(arg string) (int, bool) {
 	query := fmt.Sprintf("SELECT a FROM b WHERE i=%s;",arg)
 	l := lexer.Init(query)
 	p := parser.Init(l)
 	c,b := p.Eval()
 
 	if !b || c!= 10 {
-		return true
+		return c-9, true
 	}
-	return false
+	return 0, false
 }

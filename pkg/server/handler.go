@@ -22,16 +22,17 @@ func (s Server)analyzer(prx http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		
 		attack := false
+		tokenFound := 0
 		queryParams := r.URL.Query()
 		for _, values := range queryParams {
 			for _, value := range values {
 
 				if s.vector == "str" {
-					if s.waf.TestStr(value) && !attack {attack = true}
+					tokenFound, attack = s.waf.TestStr(value) // && !attack {attack = true}
 				} else if s.vector == "int" {
-					if s.waf.TestInt(value) && !attack {attack = true}
+					tokenFound, attack = s.waf.TestInt(value) // && !attack {attack = true}
 				} else {
-					if s.waf.TestStr(value) && !attack {attack = true}
+					tokenFound, attack = s.waf.TestStr(value) // && !attack {attack = true}
 				}
 
 			}
@@ -44,13 +45,14 @@ func (s Server)analyzer(prx http.HandlerFunc) http.HandlerFunc {
 			w.WriteHeader(403)
 
 			w.Write([]byte(fmt.Sprintf(`Blocked due to malicious request detected!
+Tokens found: %d
 Your IP: %s
 Request ID: %s
 Time: %s
-`, r.RemoteAddr, rid, t.Format("01-02-2006 15:04:05"))))
+`, tokenFound, r.RemoteAddr, rid, t.Format("01-02-2006 15:04:05"))))
 			endpoint := s.upstream+r.RequestURI
-			log.Printf("edp=%s adr=%s uri=%s err=\"Exploitation attempt\" rid=%s\n",
-				endpoint, r.RemoteAddr, r.RequestURI, rid)
+			log.Printf("edp=%s adr=%s uri=%s err=\"Exploitation attempt\" tks=%d rid=%s\n",
+				endpoint, r.RemoteAddr, r.RequestURI,tokenFound ,rid)
 			return
 		}
 
